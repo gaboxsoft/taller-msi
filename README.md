@@ -1,17 +1,18 @@
 ## Ejecuta un servidor tipo REST usando  Nodejs 
 
 Crea un servidor tipo REST usando:
-    - Express como controlador de rutas y 
+    - Express como controlador de rutas 
     - Body-Paser para crear la variable "body" en el objeto "req"
+    - DBMongo como base de datos local y remota
+    - bcrypt como encriptador de el password del email
+    -mongoose ....
+    -undescore ....
+    -mongoose-unique-validator
 
 Usar:
 usando Postman o similar, enviar una peticion:
 GET, POST, DELETE o PUT
-En el caso de POST:
-puedes enviar en el body cualquier número de valores.
-Caso uno.-Incluye una variable con nombre "nombre" y un valor.
-Caso dos.- No incluyas la variable "nombre"
-Caso tres.- Incluye lo que quieras y combinalo con los casos uno y dos.
+Funciona remotamente conel servidor de dbmongo
 
 Para instalar, usar:
 ```
