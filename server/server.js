@@ -12,15 +12,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use(require('../routes/usuario'));
+app.use(require('../routes/index'));
 
+
+app.listen(process.env.PORT, () => {
+    console.log(`Nodejs ${process.env.NODE_ENV} Atendiendo peticiones  en el puerto ${process. env.PORT}`);
+})
 
 
 mongoose.connect(process.env.URLDB, (err, resp) => {
     if (err) throw err;
-    console.log(`Base de datos ONLINE.`);
+    console.log(`Base de datos en la URL ${process.env.URLDB} esta ONLINE.`);
 });
-
-app.listen(process.env.PORT, () => {
-    console.log(`Atendiendo peticiones en el puerto ${process.env.PORT}`);
-})

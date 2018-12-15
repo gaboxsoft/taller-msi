@@ -6,10 +6,13 @@ const app = express();
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 
-app.get('/usuario', function(req, res) {
+let { verificaToken, verificaAdminRol } = require('../middleware/autenticacion');
+
+app.get('/usuario', verificaToken, function(req, res) {
 
     let limite = Number(req.query.limite || 0);
     let desde = Number(req.query.desde || 0);
+
     Usuario.find({ estado: true })
         .limit(limite)
         .skip(desde)
@@ -28,7 +31,7 @@ app.get('/usuario', function(req, res) {
         });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdminRol], function(req, res) {
     let body = req.body;
     console.log("\n\n---\nRecibí body--> ", body);
     let usuario = new Usuario({
@@ -48,7 +51,7 @@ app.post('/usuario', function(req, res) {
 
 });
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
     // console.log("Recibí full--> ", body);
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'estado', 'rol']);
     let id = req.params.id;
@@ -65,7 +68,7 @@ app.put('/usuario/:id', function(req, res) {
 
 });
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
 
     let id = req.params.id;
 
