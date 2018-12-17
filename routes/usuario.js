@@ -33,14 +33,12 @@ app.get('/usuario', verificaToken, function(req, res) {
 
 app.post('/usuario', [verificaToken, verificaAdminRol], function(req, res) {
     let body = req.body;
-    console.log("\n\n---\nRecibí body--> ", body);
     let usuario = new Usuario({
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
         rol: body.rol
     });
-    console.log("\n\n---\nRecibí usuario--> ", usuario);
     usuario.save((err, usuarioBD) => {
         if (err) {
             res.status(400).json({ ok: false, error: err });
@@ -52,11 +50,8 @@ app.post('/usuario', [verificaToken, verificaAdminRol], function(req, res) {
 });
 
 app.put('/usuario/:id', [verificaToken, verificaAdminRol], function(req, res) {
-    // console.log("Recibí full--> ", body);
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'estado', 'rol']);
     let id = req.params.id;
-    // console.log("Recibí pick--> ", body);
-
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioBD) => {
         if (err) {
