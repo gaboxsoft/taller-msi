@@ -4,24 +4,33 @@ const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
+const Nombre = require('../models/nombrePersona');
+let { verificaPrimerUsuarioAdmin } = require('../middleware/autenticacion');
 
 const express = require('express');
 const app = express();
 
 
-app.post('/login', function(req, res) {
+app.post('/login', verificaPrimerUsuarioAdmin, function(req, res) {
 
     let body = req.body;
 
+
     Usuario.findOne({ email: body.email }, (err, usuarioBD) => {
         if (err) {
-            return res.status(500).json({ ok: false, error: err });
+            return res.status(500).json({ ok: false, error: { mensaje: err } });
         }
         if (!usuarioBD) {
             return res.status(400).
-            json({ ok: false, error: "el nombre del (usuario) o contraseña no son correctas." });
+            json({ ok: false, error: "el nombre del (usuario) o contraseña no son correctas.1" });
         };
 
+        // Verifica que el usuario este activo.
+        if (usuarioBD.situacion != 1) {
+            return res.status(400).
+            json({ ok: false, error: "el nombre del (usuario) o contraseña no son correctas.2" });
+        };
+        //Verifica el password 
         if (!bcrypt.compareSync(body.password, usuarioBD.password)) {
             return res.status(400).
             json({ ok: false, error: "el nombre del usuario o (contraseña) no son correctas." });
@@ -31,7 +40,7 @@ app.post('/login', function(req, res) {
         let token = jwt.sign({
                 usuario: usuarioBD
             },
-            process.env.SEED, { expiresIn: 60 * 60 * 24 * 30 });
+            process.env.SEED, { expiresIn: process.env.CADUCIDAD });
 
         return res.json({ ok: true, usuario: usuarioBD, token });
 
@@ -97,10 +106,9 @@ app.post('/google', async(req, res) => {
                 usuario.img = googleUser.picture;
                 usuario.password = ':)';
                 usuario.google = true;
-                console.log('Usuario por agregar: ' + usuario.email);
                 usuario.save((err, usuarioBD) => {
                     if (err) {
-                        console.log('encontré un error al tratar de agregar: ' + err);
+
                         return res.status(500).json({ ok: false, error: err });
                     };
                     let token = jwt.sign({

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login-HC</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+
+<body>
+    <h1>Hello</h1>
+    <div id="main">
+
+        <input type="text" v-model="nombre" v-on:keyup.enter="addName">
+        <ul>
+            <li v-for="p in personas">{{p}}</li>
+        </ul>
+    </div>
+
+
+    <!-- CDN Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <!-- CDN Vue-Ajax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+
+    <script type="text/javascript">
+        urlData = 'https://randomuser.me/api/?results=50';
+        new Vue({
+            el: "#main",
+            data: {
+                personas: ['noralia', 'drew', 'isuaco', 'gabo'],
+                nombre: ''
+            },
+            methods: {
+                addName: function() {
+                    this.personas.push(this.nombre);
+                    this.nombre = '';
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>

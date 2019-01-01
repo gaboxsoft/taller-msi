@@ -1,13 +1,13 @@
 ## Ejecuta un servidor tipo REST usando  Nodejs 
 
+AÑO: 2019
+AUTOR: GABRIEL SUAREZ VALDEZ
+Prácticas del taller MSI....
+
 Crea un servidor tipo REST usando:
-    - Express como controlador de rutas 
-    - Body-Paser para crear la variable "body" en el objeto "req"
-    - DBMongo como base de datos local y remota
-    - bcrypt como encriptador de el password del email
-    -mongoose ....
-    -undescore ....
-    -mongoose-unique-validator
+operaciones WebAPI con:
+usuarios
+pacientes
 
 Usar:
 usando Postman o similar, enviar una peticion:
