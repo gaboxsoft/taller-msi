@@ -27,4 +27,4 @@ process.env.CADUCIDAD = process.env.CADUCIDAD || 60 * 60 * 24 * 30; //60segs*60m
 process.env.CLIENT_ID = process.env.CLIENT_ID || '403607364933-cndqin88pdjlrpcuhrcb4djn38us80dd.apps.googleusercontent.com';
 
 // Diferencia de la zona horaria central de México: UTC-6 
-process.env.UTC_MX = process.env.UTC_MX || (1000 * 60 * 60 * -6);
+process.env.UTCmx = process.env.UTCmx || (1000 * 60 * 60 * 6);

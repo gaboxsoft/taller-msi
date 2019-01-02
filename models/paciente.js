@@ -86,8 +86,9 @@ let pacienteSchema = new Schema({
 
     fechaCreacion: {
         type: Date,
-        required: [true, 'La fecha de creación es necesaria.'],
-        default: Date.now()
+        required: [true, 'La fecha de creación es necesaria.']
+            // ,
+            // default: new Date().toLocaleString()
     },
     fechaModificacion: {
         type: Date
@@ -111,8 +112,9 @@ let pacienteSchema = new Schema({
 
 pacienteSchema.plugin(uniqueValidator, { message: '{PATH} debe ser único. ' })
 
-
 module.exports = mongoose.model('Paciente', pacienteSchema);
+
+
 
 // // Nombre de persona
 // nombres:
@@ -128,4 +130,5 @@ module.exports = mongoose.model('Paciente', pacienteSchema);
 // municipio: 
 // entidad: 
 // CP: 
-// telefonos:
+// telefonos: 
+// pais:

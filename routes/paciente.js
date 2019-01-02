@@ -5,6 +5,7 @@ const app = express();
 
 const _ = require('underscore');
 
+const moment = require('moment');
 
 let { verificaToken, verificaAdminRol } = require('../middleware/autenticacion');
 
@@ -35,23 +36,6 @@ app.post('/paciente', [verificaToken, verificaAdminRol], function(req, res) {
     let body = req.body;
     let paciente = new Paciente({
 
-        // // Nombre de persona
-        // nombres:
-        // paterno:
-        // materno: 
-        // genero: 
-        // fechaNacimiento: 
-        // //Domicilio
-        // calle:
-        // numExterior: 
-        // numInterior: 
-        // colonia: 
-        // municipio: 
-        // entidad: 
-        // CP: 
-        // telefonos: 
-        // pais:
-
         nombres: body.nombres,
         paterno: body.paterno,
         materno: body.materno,
@@ -66,7 +50,8 @@ app.post('/paciente', [verificaToken, verificaAdminRol], function(req, res) {
         entidad: body.entidad || '',
         pais: body.pais || 'México',
         cp: body.cp || '',
-        usuario: req.usuario._id
+        usuario: req.usuario._id,
+        fechaCreacion: Date.now()
     });
     paciente.save((err, pacienteBD) => {
         if (err) {
@@ -75,12 +60,11 @@ app.post('/paciente', [verificaToken, verificaAdminRol], function(req, res) {
             res.json({ pacienteBD: pacienteBD });
         }
     });
-
 });
 
 app.put('/paciente/:id', [verificaToken, verificaAdminRol], function(req, res) {
 
-    let body = _.pick(req.body, ['nombre', 'fechaNacimiento',
+    let body = _.pick(req.body, ['nombres', 'paterno', 'materno', 'fechaNacimiento',
         'genero', 'telefonos',
         'calle', 'numInterior', 'numExterior', 'colonia', 'colonia',
         'entidad', 'cp', 'pais'
@@ -89,7 +73,7 @@ app.put('/paciente/:id', [verificaToken, verificaAdminRol], function(req, res) {
     let id = req.params.id;
     body.usuario = req.usuario._id
     body.fechaModificacion = Date.now();
-
+    console.log('body par amodificar---> ', body);
     Paciente.findOneAndUpdate({ _id: id, situacion: { $gt: 0 } }, body, { new: true, runValidators: true, context: 'query' }, (err, pacienteBD) => {
         if (err) {
             return res.status(400).
